@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Bagi Dua (Bisection Method)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d1e8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: rgb(214, 247, 206);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .container h2 {
+            text-align: center;
+            color: #343a40;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #343a40;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 8px rgba(128, 189, 255, 0.6);
+        }
+        .submit-btn {
+            background-color: #6ead71;
+            color: rgb(0, 0, 0);
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background-color: #7dd393;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Metode Bagi Dua</h2>
+    <form id="bisectionForm">
+        <div class="form-group">
+            <label for="function">Fungsi f(x):</label>
+            <input type="text" id="function" name="function" value="x^2 + 5*x - 14">
+        </div>
+        <div class="form-group">
+            <label for="a">Nilai a:</label>
+            <input type="number" id="a" name="a" value="0" step="any">
+        </div>
+        <div class="form-group">
+            <label for="b">Nilai b:</label>
+            <input type="number" id="b" name="b" value="20" step="any">
+        </div>
+        <div class="form-group">
+            <label for="epsilon">Nilai error (ε):</label>
+            <input type="number" id="epsilon" name="epsilon" value="0.001" step="any">
+        </div>
+        <button type="button" class="submit-btn" onclick="findRoot()">SUBMIT</button>
+    </form>
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+function findRoot() {
+    var func = document.getElementById('function').value;
+    var a = parseFloat(document.getElementById('a').value);
+    var b = parseFloat(document.getElementById('b').value);
+    var epsilon = parseFloat(document.getElementById('epsilon').value);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'kamu.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function() {
+        if (this.status == 200) {
+            document.getElementById('result').innerHTML = "<p>Akar yang ditemukan: " + this.responseText + "</p>";
+        }
+    };
+
+    xhr.send('function=' + encodeURIComponent(func) + '&a=' + a + '&b=' + b + '&epsilon=' + epsilon);
+}
+</script>
+
+</body>
+</html>
